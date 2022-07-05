@@ -24,9 +24,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Your awesome title
-email: your-email@domain.com
-author: GitHub User
+title: "Chris Tham"
+email: chris@christham.net
+author: "Chris Tham"
 
 # Copyright setting
 # You can use any html code, currently below placeholders are available:
@@ -40,21 +40,19 @@ author: GitHub User
 #   "Copyright (c) 2017-{currentYear} <a href="https://example.com">{author}</a>"
 #   "Copyright © 2017-2021 Foobar"
 #
-copyright: "Unpublished Work (cleft) 2017-{currentYear} {author}"
+copyright: Copyright (c) {currentYear} <a href="https://christham.net">{author}</a>
 
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  Chris Tham personal web site hosted on Github Pages.
 
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. https://example.com
+baseurl: "/christham-yat" # the subpath of your site, e.g. /blog
+url: "https://christinetham.github.io" # the base hostname & protocol for your site, e.g. https://example.com
 favicon: "" # the favicon for your site
 
 # Yat date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
 yat:
-  date_format: "%b %d, %Y"
+  date_format: "%d %b %Y"
 
 # If you want more debug log, you can set true
 # debug: false
@@ -69,7 +67,7 @@ yat:
 # google_analytics: [Tracking ID]
 
 # If you want to generate website sitemap, you can set true
-# sitemap: false
+sitemap: true
 
 # If you want to change site language, you can set lang option
 # lang: "en"  # default lang is en
@@ -100,14 +98,13 @@ yat:
 #   - lang: ru
 #     img: https://cdn.countryflags.com/thumbs/russia/flag-400.png
 #     text: Russian
+translate_langs: []
 
 # You can choose a theme color
 # Default theme colors as below:
-# coolblack: #090a0b
-# spacegrey: #353535
-# snowwhite: #ffffff
+
 #
-# theme_color: snowwhite
+theme_color: rosely
 #
 # Custom color as below:
 # theme_color: "#882250"
@@ -122,6 +119,7 @@ yat:
 #
 # Custom color as below:
 # brand_color: "#1a8e42"
+brand_color: rosely
 
 # Night/Dark mode
 # Default mode is "auto", "auto" is for auto nightshift

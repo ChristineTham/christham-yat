@@ -7,6 +7,7 @@ $theme-colors: (
   "coolblack": #090a0b,
   "spacegrey": #353535,
   "snowwhite": #ffffff,
+  "rosely": #f7caca,
 );
 
 // Default brand colors
@@ -14,6 +15,7 @@ $brand-colors: (
   "orangered": #ff5100,
   "greatgold": #f2cb05,
   "greenblue": #389092,
+  "rosely": #b565a7,
 );
 
 $theme-name: "{{ site.theme_color }}";
