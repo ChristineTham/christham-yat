@@ -215,6 +215,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
   - jekyll-spaceship
+  - jekyll-open_street_map
 
 defaults:
   - scope:

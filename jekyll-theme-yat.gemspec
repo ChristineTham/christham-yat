@@ -25,5 +25,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jekyll-sitemap", "~> 1.3"
   spec.add_runtime_dependency "jekyll-paginate", "~> 1.1"
   spec.add_runtime_dependency "jekyll-spaceship", "~> 0.2"
+  spec.add_runtime_dependency "jekyll-open_street_map", "~> 1.0"
   spec.add_runtime_dependency "webrick", "~> 1.7"
 end
