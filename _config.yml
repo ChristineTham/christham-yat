@@ -28,6 +28,11 @@ title: "Chris Tham"
 email: chris@christham.net
 author: "Chris Tham"
 
+github_username: ChristineTham
+twitter_username: chris1tham
+facebook_username: chris1tham
+youtube_channel: UCchh-HC4LWytJhD7GB0oZBA
+
 # Copyright setting
 # You can use any html code, currently below placeholders are available:
 # * current year: {currentYear}
@@ -175,7 +180,7 @@ brand_color: rosely
 #   subheading_style: null  # Custom subheading style (e.g. color: gold)
 
 # Excerpt size setting
-# excerpt_size: 350
+excerpt_size: 160
 
 # Pagination setting
 # paginate: 5
@@ -216,6 +221,7 @@ plugins:
   - jekyll-paginate
   - jekyll-spaceship
   - jekyll-open_street_map
+  - jekyll-autoprefixer
 
 defaults:
   - scope:

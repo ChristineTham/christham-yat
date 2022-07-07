@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 Gem::Specification.new do |spec|
-  spec.name          = "jekyll-theme-yat"
-  spec.version       = "1.8.0"
-  spec.authors       = ["jeffreytse"]
-  spec.email         = ["jeffreytse.mail@gmail.com"]
+  spec.name          = "jekyll-theme-christham"
+  spec.version       = "1.0.0"
+  spec.authors       = ["ChristineTham"]
+  spec.email         = ["chris@christham.net"]
 
-  spec.summary       = "Yet another theme for elegant writers with modern flat style and beautiful night/dark mode."
-  spec.homepage      = "https://github.com/jeffreytse/jekyll-theme-yat"
+  spec.summary       = "My Jekyll theme based on jekyll-theme-yat but using Material Design Bootstrap."
+  spec.homepage      = "https://github.com/ChristineTham/christham-yat"
   spec.license       = "MIT"
 
   spec.metadata["plugin_type"] = "theme"
@@ -26,5 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "jekyll-paginate", "~> 1.1"
   spec.add_runtime_dependency "jekyll-spaceship", "~> 0.2"
   spec.add_runtime_dependency "jekyll-open_street_map", "~> 1.0"
+  spec.add_runtime_dependency "jekyll-autoprefixer", "~> 1.0"
   spec.add_runtime_dependency "webrick", "~> 1.7"
+  spec.add_runtime_dependency "execjs", "= 2.7"
 end

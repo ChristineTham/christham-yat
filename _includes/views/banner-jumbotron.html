@@ -1,0 +1,22 @@
+<!-- Intro settings -->
+<style>
+  #intro {
+    /* Margin to fix overlapping fixed navbar */
+    margin-top: 100px;
+  }
+</style>
+
+<!--Section: Content-->
+<section>
+  <!-- Jumbotron -->
+  <div id="intro" class="p-5 text-center bg-light shadow-5 rounded-5 mb-5">
+    <h1 class="mb-3 h2">{{ heading | default: page.title | escape }}</h1>
+    <p class="mb-3">{{ subheading | default: page.subtitle | escape }}</p>
+    {%- comment -%} <a class="btn btn-primary m-2" href="https://www.youtube.com/watch?v=c9B4TPnak1A" role="button" rel="nofollow"
+      target="_blank">Start tutorial</a>
+    <a class="btn btn-primary m-2" href="https://mdbootstrap.com/docs/standard/" target="_blank"
+      role="button">Download MDB UI KIT</a> {%- endcomment -%}
+  </div>
+  <!-- Jumbotron -->
+</section>
+<!--Section: Content-->

@@ -6,16 +6,16 @@
   {%- assign field = include.field -%}
 {%- endif -%}
 
-<div class="page-segments">
-  <ul class="page-segments-list">
-    {% for key in keys %}
+<div>
+  {% for key in keys %}
     <h2 id="{{ key }}" class="segment-name">{{ key }}</h2>
+      <ul class="list-group list-group-light">
       {% assign items = site.posts | where: field, key %}
       {% for item in items %}
         {% if item != nil %}
-        <li> {% include views/post-item.html %} </li>
+        <li class="list-group-item list-group-item-action px-3 border-0 ripple"> {% include views/post-item.html %} </li>
         {% endif %}
       {% endfor %}
-    {% endfor %}
-  </ul>
+    </ul>
+  {% endfor %}
 </div>
