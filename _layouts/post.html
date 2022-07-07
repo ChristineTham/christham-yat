@@ -27,32 +27,39 @@ sidebar:
 
     {%- assign result = hidden | where_exp: "item", "item == 'navigator'" -%}
     {%- if result.size == 0 -%}
-    <div class="post-nav">
-      {%- if page.previous -%}
-        <a class="previous" href="{{ page.previous.url | relative_url }}" title="{{
-          page.previous.title | escape }}">{{ page.previous.title | escape | truncatewords: 6 }}</a>
-      {%- else -%}
-      <span></span>
-      {%- endif -%}
-
-      {%- if page.next -%}
-        <a class="next" href="{{ page.next.url | relative_url }}" title="{{ page.next.title | escape }}">{{ page.next.title | escape | truncatewords: 6 }}</a>
-      {%- else -%}
-      <span></span>
-      {%- endif -%}
-    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a class="page-link" href="{{ page.previous.url | relative_url }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            {{ page.previous.title | escape | truncatewords: 6 }}
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="{{ page.next.url | relative_url }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            {{ page.next.title | escape | truncatewords: 6 }}
+          </a>
+        </li>
+      </ul>
+    </nav>
     {%- endif -%}
 
     {%- assign result = hidden | where_exp: "item", "item == 'related_posts'" -%}
     {%- if result.size == 0 -%}
     <div class="post-related">
-      <div>Related Articles</div>
-      <ul>
+      <div class="h5">Related Articles</div>
+      <div class="list-group">
         {% assign posts = site[page.collection] | sample:4 %}
         {%- for post in posts -%}
-        <li><a class="post-link" href="{{post.url | relative_url}}" title="{{ page.next.title | escape }}">{{ post.title | escape | truncatewords: 12 }}</a></li>
+        <a href="{{post.url | relative_url}}" class="list-group-item list-group-item-action" aria-current="true">
+          <div class="d-flex w-100 justify-content-between">
+            <h6>{{ post.title | escape | truncatewords: 12 }}</h6>
+            <small>{{ post.date | date: date_format }}</small>
+          </div>
+        </a>
         {%- endfor -%}
-      </ul>
+      </div>
     </div>
     {%- endif -%}
 

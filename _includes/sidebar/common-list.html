@@ -7,19 +7,19 @@
 {%- endif -%}
 
 <div>
-  <ul class="list-group list-group-light list-group-small">
+  <ul class="list-group">
     <a href="{{ '/index.html' | relative_url }}">
-      <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
           All
-          <span class="badge badge-primary rounded-pill">{{ site.posts.size }}</span>
+          <span class="badge bg-primary rounded-pill">{{ site.posts.size }}</span>
       </li>
     </a>
 
     {% for key in  keys %}
       <a href="{{ url }}#h-{{ key }}">
-        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
             {{ key }}
-            <span class="badge badge-primary rounded-pill">{{ site.posts | where: field, key | size }}</span>
+            <span class="badge bg-primary rounded-pill">{{ site.posts | where: field, key | size }}</span>
         </li>
       </a>
     {% endfor %}

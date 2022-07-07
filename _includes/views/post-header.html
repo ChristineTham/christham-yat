@@ -1,4 +1,4 @@
-<!--Section: Post data-mdb-->
+<!--Section: Post data-bs-->
 <section class="border-bottom my-4">
   {%- if banner_image -%}
   <img src="{{ banner_image }}"
@@ -24,11 +24,11 @@
     {%- if page.tags.size > 0 -%}
     <div>
       {%- for tag in page.tags -%}
-        <span class="badge rounded-pill badge-secondary me-1"><a href="{{ '/tags.html ' | relative_url }}#{{tag}}">#{{tag}}</a></span>
+        <span class="badge rounded-pill me-1"><a href="{{ '/tags.html ' | relative_url }}#{{tag}}">#{{tag}}</a></span>
       {%- endfor -%}
     </div>
     {%- endif -%}
   </div>
   <!-- Jumbotron -->
 </section>
-<!--Section: Post data-mdb-->
+<!--Section: Post data-bs-->
