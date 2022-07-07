@@ -1,6 +1,6 @@
 # Chris Tham Personal Site
 
-This is a version of my personal blog/web site written in Markdown and [Jekyll](https://jekyllrb.com). For the time being, I am using [Jekyll YAT Theme](https://github.com/jeffreytse/jekyll-theme-yat). It is hosted on [Github Pages](https://pages.github.com). It relies on [jekyll-spaceship](https://github.com/jeffreytse/jekyll-spaceship) to provide various advanced features.
+This is a version of my personal blog/web site written in Markdown and [Jekyll](https://jekyllrb.com). The site design was originally a fork of [Jekyll YAT Theme](https://github.com/jeffreytse/jekyll-theme-yat), but I have converted to [Bootstrap](https://getbootstrap.com). It is hosted on [Github Pages](https://pages.github.com). It relies on [jekyll-spaceship](https://github.com/jeffreytse/jekyll-spaceship) to provide various advanced features.
 
 <p align="center">
   <a href="https://christinetham.github.io/christham-yat">
