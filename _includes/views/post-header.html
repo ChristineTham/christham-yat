@@ -24,7 +24,7 @@
     {%- if page.tags.size > 0 -%}
     <div>
       {%- for tag in page.tags -%}
-        <span class="badge rounded-pill me-1"><a href="{{ '/tags.html ' | relative_url }}#{{tag}}">#{{tag}}</a></span>
+        <a href="{{ '/tags.html ' | relative_url }}#{{tag}}"><span class="badge rounded-pill bg-primary me-1">#{{tag}}</span></a>
       {%- endfor -%}
     </div>
     {%- endif -%}
