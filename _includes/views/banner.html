@@ -15,6 +15,28 @@
 
 {%- include functions.html func='get_banner' -%}
 
+<style>
+  .bg-image {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  .mask {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-attachment: fixed;
+  }
+</style>
+
 {%- if has_banner -%}
   <!-- Intro settings -->
   <style>
@@ -76,7 +98,12 @@
   {%- endif -%}
   <!--Section: Content-->
   <section>
-  {%- if banner_video -%}
+  {%- if banner_html -%}
+
+  {%- assign banner_html = 'views/' | append: banner_html -%}
+  {%- include {{ banner_html }} -%}
+
+  {%- elsif banner_video -%}
     <!-- Background image -->
     <div id="intro" class="bg-image vh-100 shadow-1-strong">
       <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop poster="{{ banner_image }}">
@@ -131,7 +158,7 @@
     <!-- Background image -->
     <div id="intro" class="text-center bg-image shadow-1-strong"
       style="background-image: url({{ banner_image}});">
-      <div class="mask h-100" style="background-color: rgba(0, 0, 0, {{ banner_opacity | default: 0.5 }});">
+      <div class="mask" style="background-color: rgba(0, 0, 0, {{ banner_opacity | default: 0.5 }});">
         <div class="d-flex justify-content-center align-items-center h-100">
           <div class="text-white px-4">
             <h1 id="heading" class="mb-3">{{ heading | default: page.title | escape }}</h1>
@@ -142,14 +169,14 @@
       </div>
     </div>
     <!-- Background image -->
-  {%- else-%}
+  {%- else -%}
     <!-- Jumbotron -->
     <div id="intro" class="p-5 text-center bg-light shadow-5 rounded-5 mb-5" style="opacity: {{ banner_opacity | default: 1 }};">
       <h1 id="heading" class="mb-3 h2">{{ heading | default: page.title | escape }}</h1>
       <p id="subheading" class="mb-3">{{ subheading | default: page.subtitle | escape }}</p>
     </div>
     <!-- Jumbotron -->
-  {%- endif-%}
+  {%- endif -%}
   </section>
   <!--Section: Content-->
 {%- endif -%}
