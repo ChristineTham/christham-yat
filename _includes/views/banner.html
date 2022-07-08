@@ -98,12 +98,7 @@
   {%- endif -%}
   <!--Section: Content-->
   <section>
-  {%- if banner_html -%}
-
-  {%- assign banner_html = 'views/' | append: banner_html -%}
-  {%- include {{ banner_html }} -%}
-
-  {%- elsif banner_video -%}
+  {%- if banner_video -%}
     <!-- Background image -->
     <div id="intro" class="bg-image vh-100 shadow-1-strong">
       <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop poster="{{ banner_image }}">
@@ -169,6 +164,11 @@
       </div>
     </div>
     <!-- Background image -->
+  {%- elsif banner_html -%}
+
+  {%- assign banner_html = 'views/' | append: banner_html -%}
+  {%- include {{ banner_html }} -%}
+
   {%- else -%}
     <!-- Jumbotron -->
     <div id="intro" class="p-5 text-center bg-light shadow-5 rounded-5 mb-5" style="opacity: {{ banner_opacity | default: 1 }};">
