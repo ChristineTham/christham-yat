@@ -1,15 +1,8 @@
 <!--Section: Post data-bs-->
 <section class="border-bottom my-4">
-  {%- if banner_image -%}
-  <img src="{{ banner_image }}"
-    class="img-fluid shadow-2-strong rounded-5 mb-4" alt="{{ heading | default: page.title | escape }}" />
-  {%- endif -%}
-
-  <!-- Jumbotron -->
-  <div id="intro" class="p-5 text-center bg-light shadow-5 rounded-5 mb-5" itemprop="name headline">
     <h1 class="display-3">{{ heading | default: page.title | escape }}</h1>
     <p class="mb-3 lead"><em>{{ subheading | default: page.subtitle | escape }}</em></p>
-    <p class="text-muted">
+    <p class="text-primary">
       <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {%- assign date_format = site.yat.date_format | default: "%b %-d, %Y" -%}
         <i class="fa fa-calendar"></i> {{ page.date | date: date_format }}
@@ -28,7 +21,6 @@
       {%- endfor -%}
     </div>
     {%- endif -%}
-  </div>
   <!-- Jumbotron -->
 </section>
 <!--Section: Post data-bs-->

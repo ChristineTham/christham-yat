@@ -37,7 +37,9 @@
   }
 </style>
 
-{%- if has_banner -%}
+{%- if page.title == "Home" -%}
+  {%- include views/banner-carousel.html -%}
+{%- elsif has_banner -%}
   <!-- Intro settings -->
   <style>
     {%- if banner_image -%}
@@ -142,8 +144,7 @@
           ">
         <div class="container d-flex align-items-center justify-content-center text-center h-100">
           <div class="text-white">
-            <h1 class="mb-3">{{ heading | default: page.title | escape }}</h1>
-            <h5 class="mb-4">{{ subheading | default: page.subtitle | escape }}</h5>
+            {%- include views/banner-content.html -%}
           </div>
         </div>
       </div>
@@ -156,24 +157,16 @@
       <div class="mask" style="background-color: rgba(0, 0, 0, {{ banner_opacity | default: 0.5 }});">
         <div class="d-flex justify-content-center align-items-center h-100">
           <div class="text-white px-4">
-            <h1 id="heading" class="mb-3">{{ heading | default: page.title | escape }}</h1>
-
-            <p id="subheading">{{ subheading | default: page.subtitle | escape }}</p>
+            {%- include views/banner-content.html -%}
           </div>
         </div>
       </div>
     </div>
     <!-- Background image -->
-  {%- elsif banner_html -%}
-
-  {%- assign banner_html = 'views/' | append: banner_html -%}
-  {%- include {{ banner_html }} -%}
-
   {%- else -%}
     <!-- Jumbotron -->
     <div id="intro" class="p-5 text-center bg-light shadow-5 rounded-5 mb-5" style="opacity: {{ banner_opacity | default: 1 }};">
-      <h1 id="heading" class="mb-3 h2">{{ heading | default: page.title | escape }}</h1>
-      <p id="subheading" class="mb-3">{{ subheading | default: page.subtitle | escape }}</p>
+      {%- include views/banner-content.html -%}
     </div>
     <!-- Jumbotron -->
   {%- endif -%}
