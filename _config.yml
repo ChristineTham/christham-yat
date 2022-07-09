@@ -221,6 +221,7 @@ plugins:
   - jekyll-paginate
   - jekyll-spaceship
   - jekyll-open_street_map
+  - jekyll-autoprefixer
 
 defaults:
   - scope:
