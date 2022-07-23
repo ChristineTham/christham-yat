@@ -1,0 +1,11 @@
+<script src="https://unpkg.com/@microsoft/mgt/dist/bundle/mgt-loader.js"></script>
+<mgt-msal2-provider client-id="9f3504ef-2c46-4c92-82fa-2d5a7e2bc0a4"></mgt-msal2-provider>
+  <mgt-login></mgt-login>
+<script>
+  const loadFiles = () => {
+    if (mgt.Providers.globalProvider.state === mgt.ProviderState.SignedIn) {
+      document.getElementById('main').innerHTML = '<mgt-file-list></mgt-file-list>';
+    }
+  }
+  mgt.Providers.onProviderUpdated(loadFiles);
+</script>

@@ -221,6 +221,7 @@ plugins:
   - jekyll-paginate
   - jekyll-spaceship
   - jekyll-open_street_map
+  - jekyll-dotenv
 
 defaults:
   - scope:
@@ -229,4 +230,4 @@ defaults:
       image: true
 
 exclude:
-- vendor
+- bootstrap-src

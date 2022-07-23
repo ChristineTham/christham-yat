@@ -1,0 +1,481 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: default
+title: Photo Albums
+---
+<style>
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.b-example-divider {
+  height: 3rem;
+  background-color: rgba(0, 0, 0, .1);
+  border: solid rgba(0, 0, 0, .15);
+  border-width: 1px 0;
+  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.b-example-vr {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 100vh;
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+#od-loading {
+
+  z-index: 10;
+  display: none;
+}
+
+body.loading #od-loading {
+  display: block;
+}
+
+{%- comment -%} .img-container {
+  max-height: 126px;
+  overflow: hidden;
+} {%- endcomment -%}
+
+.hidden {
+  display: none;
+}
+
+pre {outline: 1px solid #ccc;padding: 5px;margin: 5px;overflow: scroll;height: 600px;white-space: pre;}
+.string { color: blue; }
+.number { color: red; }
+.boolean { color: green; }
+.null { color: magenta; }
+.key { color: black; }
+
+</style>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
+  <script id="odauth" src="{{ '/assets/js/odauth.js' | relative_url }}"></script>
+  <script>
+    function signInToOneDrive()
+    {
+      // Register your own application at https://apps.dev.microsoft.com
+      // and set the "clientId" and "redirectUri" variables accordingly.
+      var appInfo = {
+        "clientId": "9f3504ef-2c46-4c92-82fa-2d5a7e2bc0a4",
+        "redirectUri": "{{ site.url }}{{ site.baseurl }}/callback.html",
+        "scopes": "user.read files.read files.read.all sites.read.all, offline_access",
+        "authServiceUri": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize"
+      };
+      provideAppInfo(appInfo);
+
+      // use Microsoft Graph v1.0
+      var baseUrl = getQueryVariable("baseUrl")
+      msGraphApiRoot = (baseUrl) ? baseUrl : "https://graph.microsoft.com/v1.0/me";
+
+      challengeForAuth();
+
+      saveToCookie( { "apiRoot": msGraphApiRoot, "signedin": true } );
+      return false;
+    }
+
+    function showCustomLoginButton(show)
+    {
+      var loginButton = document.getElementById("od-login");
+      loginButton.style.display = show ? "block" : "none";
+
+      var logoutButton = document.getElementById("od-logoff");
+      logoutButton.style.display = show ? "none" : "block";
+    }
+
+    function getUrlParts(url)
+    {
+      var a = document.createElement("a");
+      a.href = url;
+
+      return { "hostname": a.hostname,
+               "path": a.pathname }
+    }
+
+    function setOneDriveTitle(title)
+    {
+        var element = document.getElementById("od-site");
+        element.innerText = title;
+    }
+
+
+    function saveToCookie(obj)
+    {
+      var expiration = new Date();
+      expiration.setTime(expiration.getTime() + 3600 * 1000);
+      var data = JSON.stringify(obj);
+      var cookie = "odexplorer=" + data +"; path=/; expires=" + expiration.toUTCString();
+
+      if (document.location.protocol.toLowerCase() == "https") {
+        cookie = cookie + ";secure";
+      }
+      document.cookie = cookie;
+    }
+
+    function loadFromCookie()
+    {
+      var cookies = document.cookie;
+      var name = "odexplorer=";
+      var start = cookies.indexOf(name);
+      if (start >= 0) {
+        start += name.length;
+        var end = cookies.indexOf(';', start);
+        if (end < 0) {
+          end = cookies.length;
+        }
+        else {
+          postCookie = cookies.substring(end);
+        }
+
+        var value = cookies.substring(start, end);
+        return JSON.parse(value);
+      }
+
+      return "";
+    }
+
+    function signOut()
+    {
+      logoutOfAuth();
+      saveToCookie( { "apiRoot": msGraphApiRoot, "signedin": false } );
+      $('#od-breadcrumb').empty();
+      $('#od-items').empty();
+      $('#od-json').empty();
+      location.reload();
+    }
+
+    function getQueryVariable(variable)
+    {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+     }
+  </script>
+</head>
+<body>
+  <section id="od-site" class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 id="od-title" class="fw-light">Photo Albums</h1>
+        <p class="lead text-muted">These are photos grouped into albums taken over the years.</p>
+        <p id="od-commands">
+          <div id="od-login" style="display: hidden">
+            <button type="button" class="btn btn-primary my-2" onclick="signInToOneDrive()">Sign In</button>
+          </div>
+          <div id="od-logoff" style="display: hidden">
+            <button type="button" class="btn btn-secondary my-2" onclick="signOut()">Sign Out</button>
+          </div>
+        </p>
+        <div id="od-loading" class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <nav aria-label="breadcrumb">
+          <ol id="od-breadcrumb" class="breadcrumb">
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <div id="od-content" class="py-5">
+    <div id="od-items" class="grid row">
+    </div>
+  </div>
+
+  <div id="od-content">
+    <div id="od-json" class="od-pagecol"></div>
+  </div>
+
+  <script>
+    var baseUrl = getQueryVariable("baseUrl")
+    msGraphApiRoot = (baseUrl) ? baseUrl : "https://graph.microsoft.com/v1.0/me";
+
+    var data = loadFromCookie();
+    if (data)
+    {
+      if (!baseUrl)
+        msGraphApiRoot = data.apiRoot;
+      showCustomLoginButton(!data.signedin)
+    }
+
+    // we use the url fragment to specify the file path within onedrive
+    // (eg. #/pictures/foo.jpg), so we bind to the hashchange event to
+    // know when it changes. in cases where we change the hash from
+    // within this app due to a user click, we call odauth ourselves and
+    // pre-set loadedFromHash to the new value so that this handler doesn't
+    // call odauth() again. this is so that we handle the auth popup properly.
+    // odauth can either be called in response to a user click (in which)
+    // case it's allowed to pop up an auth dialog, or with no user click,
+    // in which case it's only allowed to show a 'sign-in' button (if it
+    // tried to pop up a window, most browsers' popup blockers would block it).
+    // this handler needs to call odauth in non-click mode since it doesn't
+    // know why the hash changed.
+    var loadedForHash = "";
+    $(window).bind('hashchange', function() {
+      if (window.location.hash != loadedForHash) {
+        loadedForHash = window.location.hash;
+        odauth();
+      }
+
+     return false;
+    });
+
+    // we bind to jquery's ajax start/stop events so that we can style the
+    // page differently when a network call is being made
+    $(document).on({
+      ajaxStart: function() {$('body').addClass('loading');},
+      ajaxStop:  function() {$('body').removeClass('loading');}
+    });
+
+    // based on http://jsfiddle.net/KJQ9K/554/
+    function syntaxHighlight(obj) {
+      var json = JSON.stringify(obj, undefined, 2)
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+        function (match) {
+          var cls = 'number';
+          if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+              cls = 'key';
+            } else {
+              cls = 'string';
+            }
+          } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+          } else if (/null/.test(match)) {
+            cls = 'null';
+          }
+          return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+
+    // called to update the breadcrumb bar at the top of the page
+    function updateBreadcrumb(decodedPath) {
+      var path = decodedPath || '';
+      $('#od-breadcrumb').empty();
+      var runningPath = '';
+      var segments = path.split('/');
+      for (var i = 0 ; i < segments.length; i++) {
+        var segment = segments[i];
+        if (segment) {
+          runningPath = runningPath + '/' + encodeURIComponent(segment);
+        } else {
+          segment = 'Files';
+        }
+
+        var crumb = $("<li>").
+        addClass("breadcrumb-item").
+        appendTo("#od-breadcrumb");
+
+        $('<a>').
+          attr("href", "#" + runningPath).
+          click(function() {
+            // when the page changes in response to a user click,
+            // we set loadedForHash to the new value and call
+            // odauth ourselves in user-click mode. this causes
+            // the catch-all hashchange event handler not to
+            // process the page again. see comment at the top.
+            loadedForHash = $(this).attr('href');
+            window.location = loadedForHash;
+            odauth(true);
+          }).
+          text(segment).
+          appendTo(crumb);
+      }
+    }
+
+    // odauth calls our onAuthenticated method to give us the user's auth token.
+    // in this demo app we just use this as the method to drive the page logic
+    function onAuthenticated(token, authWindow) {
+      if (token) {
+        if (authWindow) {
+          removeLoginButton();
+          authWindow.close();
+        }
+
+        (function($){
+          // we extract the onedrive path from the url fragment and we
+          // flank it with colons to use the api's path-based addressing scheme
+          var path = "";
+          var beforePath = "";
+          var afterPath = "";
+          if (window.location.hash.length > 1) {
+            path = window.location.hash.substr(1);
+            beforePath =":";
+            afterPath = ":";
+          }
+
+          var odurl = msGraphApiRoot + "/drive/root" + beforePath + path + afterPath;
+
+          // the expand and select parameters mean:
+          //  "for the item i'm addressing, include its thumbnails and children,
+          //   and for each of the children, include its thumbnails. for those
+          //   thumbnails, return the 'large' size"
+          var thumbnailSize = "large"
+          var odquery = "?expand=thumbnails,children(expand=thumbnails(select=" + thumbnailSize + "))";
+
+          $.ajax({
+            url: odurl + odquery,
+            dataType: 'json',
+            headers: { "Authorization": "Bearer " + token },
+            accept: "application/json;odata.metadata=none",
+            success: function(data) {
+              if (data) {
+                // clear out the old content
+                $('#od-items').empty();
+                $('#od-json').empty();
+
+                // add the syntax-highlighted json response
+                // $("<pre>").html(syntaxHighlight(data)).appendTo("#od-json");
+
+                // process the response data. if we get back children (data.children)
+                // then render the tile view. otherwise, render the "one-up" view
+                // for the item's individual data. we also look for children in
+                // 'data.value' because if this app is ever configured to reqeust
+                // '/children' directly instead of '/parent?expand=children', then
+                // they'll be in an array called 'data'
+                var decodedPath = decodeURIComponent(path);
+                document.title = "Photo Album" + ((decodedPath.length > 0) ? " - " + decodedPath : "");
+
+                updateBreadcrumb(decodedPath);
+                var children = data.children || data.value;
+                if (children && children.length > 0) {
+                  $.each(children, function(i,item) {
+                    var tilec = $("<div>").
+                      addClass("grid-item col-sm-6 col-lg-4 mb-4").
+                      appendTo("#od-items");
+
+                    var tile = $("<div>").
+                      addClass("card").
+                      attr("href", "#" + path + "/" + encodeURIComponent(item.name)).
+                      click(function() {
+                        // when the page changes in response to a user click,
+                        // we set loadedForHash to the new value and call
+                        // odauth ourselves in user-click mode. this causes
+                        // the catch-all hashchange event handler not to
+                        // process the page again. see comment at the top.
+                        loadedForHash = $(this).attr('href');
+                        window.location = loadedForHash;
+                        odauth(true);
+                      }).
+                      appendTo(tilec);
+
+                    if (item.thumbnails && item.thumbnails.length > 0) {
+                      $("<img>").
+                        addClass("bd-placeholder-img card-img-top").
+                        attr("width", "100%").
+                        attr("alt", item.name).
+                        attr("src", item.thumbnails[0][thumbnailSize].url).
+                        appendTo(tile);
+                    }
+
+                    var cardbody = $("<div>").
+                      addClass("card-body").
+                      appendTo(tile);
+
+                    $("<h5>").
+                      addClass("card-title").
+                      text(item.name).
+                      appendTo(cardbody);
+                    $("<p>").
+                      addClass("card-text").
+                      text(item.description).
+                      appendTo(cardbody);
+                    if (item.photo) {
+                      $("<p>").
+                        addClass("card-text").
+                        text(item.photo.cameraMake + " " + item.photo.cameraModel + (item.photo.fNumber ? " " + item.photo.focalLength + "mm f" + item.photo.fNumber + " " + item.photo.exposureNumerator + "/" + item.photo.exposureDenominator + "s" : "")).
+                        appendTo(cardbody);
+                    }
+                  });
+
+                  $grid = $('.grid').masonry({
+                    itemSelector: ".grid-item",
+                    percentPosition: true
+                  });
+
+                  var imgLoad = imagesLoaded('.grid');
+                  imgLoad.on( 'always', function() {
+                    $grid.masonry('layout');
+                    // console.log("images loaded");
+                  });
+                }
+                else if (data.file) {
+                  var tilec = $("<div>").
+                    addClass("grid-item col-sm-12 mb-4").
+                    appendTo("#od-items");
+
+                  // 1-up view
+                  var tile = $("<div>").
+                    addClass("card").
+                    appendTo(tilec);
+
+                  var downloadUrl = data['@microsoft.graph.downloadUrl'];
+                  if (downloadUrl) {
+                    $("<img>").
+                      addClass("bd-placeholder-img card-img-top").
+                      attr("width", "100%").
+                      attr("alt", data.name).
+                      attr("src", downloadUrl).
+                      appendTo(tile);
+                  }
+
+                  var cardbody = $("<div>").
+                    addClass("card-body").
+                    appendTo(tile);
+
+                  $("<h5>").
+                    addClass("card-title").
+                    text(data.name).
+                    appendTo(cardbody);
+                  $("<p>").
+                    addClass("card-text").
+                    text(data.description).
+                    appendTo(cardbody);
+                }
+                else {
+                  $('<p>No items in this folder.</p>').appendTo('#od-items');
+                }
+              } else {
+                $('#od-items').empty();
+                $('<p>error.</p>').appendTo('#od-items');
+                $('#od-json').empty();
+              }
+            }
+          });
+        })(jQuery);
+      }
+      else {
+        alert("Error signing in");
+      }
+    }
+
+    // start the whole thing off by calling odauth() in non-click mode.
+    // if the user isn't logged in already, a sign-in link will appear
+    // for them to click.
+    odauth();
+  </script>
