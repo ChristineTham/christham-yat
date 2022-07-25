@@ -1,0 +1,10 @@
+{%- if page.album or page.lightbox -%}
+<script src='{{ "/assets/lightbox2/js/lightbox-plus-jquery.min.js" | relative_url }}'></script>
+<script>
+    lightbox.option({
+      'resizeDuration': 200,
+      'wrapAround': true,
+      'alwaysShowNavOnTouchDevices': true
+    })
+</script>
+{%- endif -%}

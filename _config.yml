@@ -221,7 +221,7 @@ plugins:
   - jekyll-paginate
   - jekyll-spaceship
   - jekyll-open_street_map
-  - jekyll-dotenv
+  - jekyll-postfiles
 
 defaults:
   - scope:

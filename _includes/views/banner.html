@@ -131,7 +131,7 @@
     {%- elsif banner_image -%}
     <!-- Background image -->
     <div id="intro" class="text-center bg-image shadow-1-strong"
-      style="background-image: url({{ banner_image}});">
+      style="background-image: url('{{ banner_image }}');">
       <div class="mask" style="background-color: rgba(0, 0, 0, {{ banner_opacity | default: 0.5 }});">
         <div class="d-flex justify-content-center align-items-center h-100">
           <div class="text-white px-4">

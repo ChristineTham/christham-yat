@@ -1,0 +1,73 @@
+<script src={{ "/assets/js/lunr.js" | relative_url }}></script>
+
+<script>
+{% assign counter = 0 %}
+var documents = [{% for page in site.pages %}{% if page.url contains '.xml' or page.url contains 'assets' %}{% else %}{
+    "id": {{ counter }},
+    "url": "{{ page.url | relative_url }}",
+    "title": "{{ page.title }}",
+    "body": "{{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | replace: '  ', ' ' | replace: '"', ' ' }}"{% assign counter = counter | plus: 1 %}
+    }, {% endif %}{% endfor %}{% for page in site.without-plugin %}{
+    "id": {{ counter }},
+    "url": "{{ page.url | relative_url }}",
+    "title": "{{ page.title }}",
+    "body": "{{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | replace: '  ', ' ' | replace: '"', ' ' }}"{% assign counter = counter | plus: 1 %}
+    }, {% endfor %}{% for page in site.posts %}{
+    "id": {{ counter }},
+    "url": "{{ page.url | relative_url }}",
+    "title": "{{ page.title }}",
+    "body": "{{ page.date | date: "%Y/%m/%d" }} - {{ page.content | markdownify | replace: '.', '. ' | replace: '</h2>', ': ' | replace: '</h3>', ': ' | replace: '</h4>', ': ' | replace: '</p>', ' ' | strip_html | strip_newlines | replace: '  ', ' ' | replace: '"', ' ' }}"{% assign counter = counter | plus: 1 %}
+    }{% if forloop.last %}{% else %}, {% endif %}{% endfor %}];
+
+var idx = lunr(function () {
+    this.ref('id')
+    this.field('title')
+    this.field('body')
+
+    documents.forEach(function (doc) {
+        this.add(doc)
+    }, this)
+});
+function lunr_search(term) {
+  document.getElementById('lunrsearchresults').innerHTML = '<ul class="list-group"></ul>';
+  if(term) {
+      document.getElementById('lunrsearchtitle').innerHTML = "Search results for '" + term + "'";
+      //put results on the screen.
+      var results = idx.search(term);
+      if(results.length>0){
+          //console.log(idx.search(term));
+          //if results
+          for (var i = 0; i < results.length; i++) {
+              // more statements
+              var ref = results[i]['ref'];
+              var url = documents[ref]['url'];
+              var title = documents[ref]['title'];
+              var body = documents[ref]['body'].substring(0,{{ site.excerpt_size | default: 160 }})+'...';
+              document.querySelectorAll('#lunrsearchresults ul')[0].innerHTML = document.querySelectorAll('#lunrsearchresults ul')[0].innerHTML + '<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"><a href="' + url + '"><h6 class="mb-0">' + title + '</h6><p class="mb-0 opacity-75"><small>' + body + '</small></p></a></li>';
+          }
+      } else {
+          document.querySelectorAll('#lunrsearchresults ul')[0].innerHTML = 'No results found...';
+      }
+  }
+
+  const lunrSearchModal = new bootstrap.Modal(document.getElementById('lunrsearchmodal'),{
+    keyboard: true
+  }).show();
+
+  return false;
+}
+</script>
+
+<div id="lunrsearchmodal" class="modal fade" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="lunrsearchtitle" class="modal-title">Search results</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id="lunrsearchresults" class="modal-body">
+        <ul></ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -34,9 +34,8 @@
             {%- endif -%}
             <div class="card-body">
               <h5 class="card-title">{{ post.title | escape }}</h5>
-              <p class="card-text">
-                {{ excerpt }}
-              </p>
+              <p class="card-text"><i>{{ post.subtitle }}</i></p>
+              <p class="card-text text-muted">{{ excerpt }}</p>
               <a href="{{ post_url }}" class="btn btn-primary">Read</a>
             </div>
             <div class="card-footer">

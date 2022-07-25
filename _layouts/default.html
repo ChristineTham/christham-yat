@@ -1,29 +1,23 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
-
   {%- include head.html -%}
-
   <body>
-
-  <header class="site-header">
-    {%- include views/header.html -%}
-
-    {%- include views/banner.html -%}
-
-    {%- include extensions/hashlocate.html -%}
-
-    {%- comment -%} {%- include extensions/theme-toggle.html -%} {%- endcomment -%}
-
-    {%- include extensions/click-to-top.html -%}
-  </header>
-
+    <header class="site-header">
+      {%- include views/header.html -%}
+      {%- include views/banner.html -%}
+      {%- include extensions/hashlocate.html -%}
+      {%- comment -%} {%- include extensions/theme-toggle.html -%} {%- endcomment -%}
+      {%- include extensions/click-to-top.html -%}
+    </header>
+    {% include extensions/search-lunr.html %}
     <main class="mt-5 mb-5" aria-label="Content">
       <div class="container">
         {{ content }}
       </div>
     </main>
-
     {%- include views/footer.html -%}
+    {% include views/image-gallery.html %}
+    {%- include extensions/lightbox2.html -%}
     <script src="{{ '/assets/js/bootstrap/bootstrap.bundle.min.js' | relative_url }}"></script>
   </body>
 </html>

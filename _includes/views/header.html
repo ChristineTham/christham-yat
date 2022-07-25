@@ -39,7 +39,9 @@
         </li>
         {% endfor %}
       </ul>
-
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+        <input type="search" class="form-control" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Search..." aria-label="Search">
+      </form>
       <ul class="navbar-nav d-flex flex-row">
         <!-- Icons -->
         {% if site.youtube_channel %}

@@ -1,0 +1,17 @@
+<div class="masonry-wrapper">
+    <div class="masonry">
+      {% for album in site.posts %}
+        {% if album.album %}
+        <a href="{{ album.url }}">
+          <div class="masonry-item">
+            <div class="masonry-content">
+              <img src="{{ album.image }}" alt="{{ album.title }}">
+              <h3 class="masonry-title">{{ album.title }}</h3>
+              <span class="masonry-description">{{ album.excerpt }}</span>
+            </div>
+          </div>
+        </a>
+        {% endif %}
+      {% endfor %}
+  </div>
+</div>

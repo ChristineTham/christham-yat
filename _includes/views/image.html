@@ -1,0 +1,8 @@
+<figure>
+<a href="{{ include.src }}" data-lightbox="gallery" data-title="{{include.title}}">
+  <img src="{{ include.src }}" alt="{{ include.title }}" width="100%" height="100%"/>
+</a>
+{%- if include.caption -%}
+<figcaption><center><small><i>{{ include.caption }}</i></small></center></figcaption>
+{%- endif -%}
+</figure>
