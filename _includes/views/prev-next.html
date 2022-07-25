@@ -1,0 +1,16 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="{{ page.previous.url | relative_url }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        {{ page.previous.title | escape | truncatewords: 6 }}
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="{{ page.next.url | relative_url }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        {{ page.next.title | escape | truncatewords: 6 }}
+      </a>
+    </li>
+  </ul>
+</nav>

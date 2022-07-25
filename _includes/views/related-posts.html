@@ -1,0 +1,14 @@
+<div class="post-related">
+  <div class="h5">Related Articles</div>
+  <div class="list-group">
+    {% assign posts = site[page.collection] | sample:4 %}
+    {%- for post in posts -%}
+    <a href="{{post.url | relative_url}}" class="list-group-item list-group-item-action" aria-current="true">
+      <div class="d-flex w-100 justify-content-between">
+        <h6>{{ post.title | escape | truncatewords: 12 }}</h6>
+        <small>{{ post.date | date: date_format }}</small>
+      </div>
+    </a>
+    {%- endfor -%}
+  </div>
+</div>

@@ -3,8 +3,6 @@ layout: default
 banner:
 banner_html: post-header.html
 hidden: []
-sidebar:
-  - article-menu
 ---
 
 <div class="post">
@@ -29,61 +27,17 @@ sidebar:
 
     {%- assign result = hidden | where_exp: "item", "item == 'navigator'" -%}
     {%- if result.size == 0 -%}
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item">
-          <a class="page-link" href="{{ page.previous.url | relative_url }}" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-            {{ page.previous.title | escape | truncatewords: 6 }}
-          </a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="{{ page.next.url | relative_url }}" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-            {{ page.next.title | escape | truncatewords: 6 }}
-          </a>
-        </li>
-      </ul>
-    </nav>
+    {%- include views/prev-next.html -%}
     {%- endif -%}
 
     {%- assign result = hidden | where_exp: "item", "item == 'related_posts'" -%}
     {%- if result.size == 0 -%}
-    <div class="post-related">
-      <div class="h5">Related Articles</div>
-      <div class="list-group">
-        {% assign posts = site[page.collection] | sample:4 %}
-        {%- for post in posts -%}
-        <a href="{{post.url | relative_url}}" class="list-group-item list-group-item-action" aria-current="true">
-          <div class="d-flex w-100 justify-content-between">
-            <h6>{{ post.title | escape | truncatewords: 12 }}</h6>
-            <small>{{ post.date | date: date_format }}</small>
-          </div>
-        </a>
-        {%- endfor -%}
-      </div>
-    </div>
+    {%- include views/related-posts.html -%}
     {%- endif -%}
 
     {%- assign result = hidden | where_exp: "item", "item == 'comments'" -%}
     {%- if result.size == 0 -%}
-    <div class="post-comments">
-      {%- if page.comments != false -%}
-
-      {%- if site.disqus.shortname -%}
-      {%- include extensions/comments/disqus.html -%}
-      {%- endif -%}
-
-      {%- if site.gitment.username -%}
-      {%- include extensions/comments/gitment.html -%}
-      {%- endif -%}
-
-      {%- if site.utterances.repo -%}
-      {%- include extensions/comments/utterances.html -%}
-      {%- endif -%}
-
-      {%- endif -%}
-    </div>
+    {%- include views/comments.html -%}
     {%- endif -%}
 
   </section>
