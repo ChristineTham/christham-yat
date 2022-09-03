@@ -50,7 +50,7 @@ copyright: Copyright (c) {currentYear} <a href="https://christham.net">{author}<
 description: >- # this means to ignore newlines until "baseurl:"
   Chris Tham personal web site hosted on Github Pages.
 
-baseurl: "/christham-yat" # the subpath of your site, e.g. /blog
+baseurl: "/hello-jekyll" # the subpath of your site, e.g. /blog
 url: "https://christinetham.github.io" # the base hostname & protocol for your site, e.g. https://example.com
 favicon: "/assets/icons/logo.svg" # the favicon for your site
 
